@@ -30,7 +30,7 @@ A hands-on detection engineering project using the Elastic Stack to identify thr
 ### 🔥 Alerts Dashboard — All Rules Firing
 > Elastic Security Alerts page showing all detection rules triggered — rule names, severity (High), timestamps, and risk scores visible in a single view.
 
-![Alerts Dashboard](screenshots/alerts-dashboard.png)
+![Alerts Dashboard](Screenshots/alerts-dashboard.png)
 
 ---
 
@@ -58,7 +58,7 @@ A hands-on detection engineering project using the Elastic Stack to identify thr
 **A. Failure → Success Sequence in auth.log**
 > auth.log showing 5 consecutive FAILURE entries immediately followed by a SUCCESS from the same IP — the exact `failure → success` pattern the EQL rule detects.
 
-![Auth Success Sequence](screenshots/auth-success-sequence.png)
+![Auth Success Sequence](Screenshots/auth-success-sequence.png)
 
 **B. EQL Sequence Rule Configuration**
 > Rule definition showing `sequence by source.ip, user.name with maxspan=5m` — `failure` followed by `success` — targeting `logs-xampp-auth*` index.
