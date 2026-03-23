@@ -1,8 +1,8 @@
-# Elastic SIEM — Threat Detection Lab
+# Elastic-Detection-Engineering Lab
 
 **Internship Project | SOC Analyst | March 2026**
 
-A hands-on detection engineering project using the Elastic Stack to identify three real-world attack techniques in a self-built lab environment. Each scenario covers the full pipeline — from log ingestion and field parsing to detection rule creation, attack simulation, and live alert validation.
+Hands-on SIEM detection engineering lab using Elastic Stack to detect credential stuffing, DNS tunneling, and PowerShell-based attacks with real log analysis and alert validation.
 
 ---
 
@@ -263,7 +263,7 @@ $stream = $client.GetStream()
 ## Repository Structure
 
 ```
-elk-siem-threat-detection/
+elastic-detection-engineering-lab/
 │
 ├── README.md                                      ← This file
 ├── architecture.md                                ← Lab topology, data flows, index patterns
