@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs (real logs — only samples belong in this repo)
+*.log
+!sample-logs/
+
+# Credentials / secrets — never commit these
+*.env
+secrets.yml
+kibana.keystore
+elasticsearch.keystore
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Temporary
+tmp/
